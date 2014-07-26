@@ -1,0 +1,6 @@
+File:
+  New: 'nw:newFile'
+  Open: 'nw:openFile'
+  Save: 'nw:saveFile'
+  '-': ''
+  Close: 'nw:close'

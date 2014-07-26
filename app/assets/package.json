@@ -1,7 +1,7 @@
 {
-  "author": "My Name",
-  "name": "MyAwesomeApp",
-  "description": "Package Description",
+  "author": "Timothy Huddle",
+  "name": "Codeditor",
+  "description": "A revamp of my earlier attempts at a desktop code editor, with all of the knowledge I have gained since then.",
   "version": "0.0.1",
   "homepage": "",
   "private": true,
@@ -16,7 +16,7 @@
   "dom_storage_quota": 1024,
   "window": {
     "//": "screen settings",
-    "title": "my awesome app",
+    "title": "Codeditor",
     "icon": "link.png",
     "toolbar": true,
     "frame": true,
@@ -30,6 +30,6 @@
     "fullscreen": false
   },
   "dependencies": {
-    "nedb": "~0.9.4"
+    "cson": "^1.6.0"
   }
 }
