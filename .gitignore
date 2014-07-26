@@ -1,0 +1,28 @@
+**/.DS_Store
+codeditor
+manifest.mf
+build.xml
+
+node_modules
+
+.project
+.settings
+.idea
+
+_public/**/*
+node_modules
+npm-debug.log
+
+test/test-results.xml
+
+# Bower stuff.
+bower_components
+
+# build stuff.
+dist
+
+# testing stuff
+selenium-debug.log
+test/chromedriver.*
+test/selenium*.*
+tests_output

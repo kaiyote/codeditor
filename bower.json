@@ -1,0 +1,21 @@
+{
+  "name": "node-webkit-stylish-seed",
+  "repo": "kaiyote/node-webkit-stylish-seed",
+  "version": "0.2.0",
+  "main": "_public/js/app.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ],
+  "dependencies": {
+    "bootstrap-stylus": "~3.0.0",
+    "components-underscore": "~1.5.2",
+    "mithril": "~0.1.18"
+  },
+  "overrides": {
+    "mithril": {
+      "main": "mithril.js"
+    }
+  }
+}

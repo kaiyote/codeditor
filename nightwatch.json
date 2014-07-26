@@ -1,0 +1,25 @@
+{
+  "src_folders": [
+    "test"
+  ],
+  "selenium": {
+    "start_process": true,
+    "server_path": "test/selenium-server-standalone-2.42.2.jar",
+    "cli_args": {
+      "webdriver.chrome.driver": "test/chromedriver.exe"
+    }
+  },
+  "test_settings": {
+    "default": {
+      "launch_url": "_public/index.html",
+      "silent": true,
+      "desiredCapabilities": {
+        "browserName": "chrome",
+        "javascriptEnabled": true,
+        "chromeOptions": {
+          "binary": "node_modules/nodewebkit/nodewebkit/nw.exe"
+        }
+      }
+    }
+  }
+}

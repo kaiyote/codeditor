@@ -1,0 +1,42 @@
+{
+  "author": "Timothy Huddle",
+  "name": "node-webkit-stylish-seed",
+  "description": "Bootstrap a crossplatform Desktop Application using tools you probably never heard of.",
+  "version": "0.2.0",
+  "homepage": "https://github.com/kaiyote/node-webkit-stylish-seed",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kaiyote/node-webkit-stylish-seed"
+  },
+  "scripts": {
+    "compiler": "brunch watch",
+    "mock": "brunch watch -P",
+    "test": "grunt nodeunit",
+    "e2e": "grunt coffee:test && coffee nightwatch.coffee && grunt clean:test",
+    "app": "nodewebkit _public",
+    "deploy": "grunt"
+  },
+  "dependencies": {
+    "async": "^0.9.0",
+    "auto-reload-brunch": "^1.7.3",
+    "clean-css-brunch": "^1.7.1",
+    "coffee-script": "^1.7.1",
+    "coffee-script-brunch": "^1.8.0",
+    "css-brunch": "^1.7.0",
+    "download": "^0.1.18",
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-coffee": "^0.10.1",
+    "grunt-contrib-nodeunit": "^0.4.1",
+    "grunt-node-webkit-builder": "^0.1.21",
+    "jade": "^1.5.0",
+    "jaded-brunch": "^1.7.11",
+    "javascript-brunch": "^1.7.1",
+    "nightwatch": "^0.5.11",
+    "nodewebkit": "^0.9.2",
+    "progress": "^1.1.7",
+    "stylus-brunch": "^1.8.1",
+    "uglify-js-brunch": "^1.7.7"
+  },
+  "devDependencies": {}
+}
