@@ -1,3 +1,7 @@
+@require '_functions'
+@require '_mixins'
+@require '_variables'
+
 @font-face
   font-family 'Inconsolata'
   src url('../fonts/Inconsolata-Regular.woff')
@@ -14,6 +18,9 @@ body, html
   margin 0
   padding 0
   overflow hidden
+  font-size 14px
+  background background
+  color foreground
 
 body
   display flex
@@ -35,5 +42,25 @@ body
     flex 1 0 auto
   
 .menubar, .statusbar
-  display flex
   flex 0 0 auto
+  height 1.7rem
+  align-items center
+  background darken(background, 65%)
+  
+.menubar
+  display flex
+  flex-flow row
+    
+  ul
+    flex 1 0 auto
+    list-style-type none
+    padding 0
+    background darken(background, 65%)
+    
+    &.menu > li
+      display inline-block
+      padding-left 1rem
+      
+      ul
+        display none
+        position absolute

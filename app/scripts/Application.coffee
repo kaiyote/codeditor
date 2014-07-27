@@ -1,4 +1,4 @@
-ApplicationController =
+Application =
   controller: class
     createMenu = (menu, gui, root) ->
       for key, value of menu
@@ -21,6 +21,7 @@ ApplicationController =
     constructor: ->
       @nwgui = require 'nw.gui'
       @window = do @nwgui.Window.get
+      @menuCtrl = new MenuBar.controller
       require('fs').readFile 'menu.json',
         encoding: 'utf8'
       , (err, data) =>
@@ -37,7 +38,7 @@ ApplicationController =
         do @window.showDevTools
         
   view: (ctrl) -> [
-    m '.menubar', 'Menu Bar'
+    m '.menubar', MenuBar.view ctrl.menuCtrl
     m '.mainContainer', [
       m '.project', 'Project'
       m '.editor', 'Editor'

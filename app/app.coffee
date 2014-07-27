@@ -1,3 +1,3 @@
 'use strict'
 document.addEventListener 'DOMContentLoaded', ->
-  m.module document.body, ApplicationController
+  m.module document.body, Application
