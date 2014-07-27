@@ -40,7 +40,7 @@ body
     
   .editor
     flex 1 0 auto
-  
+    
 .menubar, .statusbar
   flex 0 0 auto
   height 1.7rem
@@ -55,12 +55,18 @@ body
     flex 1 0 auto
     list-style-type none
     padding 0
+    margin-left .7rem
     background darken(background, 65%)
     
-    &.menu > li
+    .root
       display inline-block
-      padding-left 1rem
+      padding-right 1rem
+      cursor pointer
       
-      ul
-        display none
+      .menu
         position absolute
+        margin-left -.7rem
+        padding .2rem 2rem
+        
+        &.hidden
+          display none
