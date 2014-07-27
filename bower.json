@@ -9,7 +9,6 @@
     "components"
   ],
   "dependencies": {
-    "bootstrap-stylus": "~3.0.0",
     "components-underscore": "~1.5.2",
     "mithril": "~0.1.18"
   },

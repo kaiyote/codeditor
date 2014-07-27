@@ -1,0 +1,14 @@
+{
+  "File": {
+    "New": "ce:newFile",
+    "Open": "ce:openFile",
+    "Save": "ce:saveFile",
+    "Save As": "ce:saveFileAs",
+    "-": "",
+    "Close": "ce:close"
+  },
+  "Developer": {
+    "Reload": "ce:reload",
+    "Show Dev Tools": "ce:devTools"
+  }
+}
