@@ -29,17 +29,15 @@ body
   align-items stretch
   align-content stretch
   font-family 'Inconsolata'
+  -webkit-user-select none
+  
+.hidden
+  display none
   
 .mainContainer
   display flex
   flex-flow row
   flex 1 0 auto
-  
-  .project
-    flex 0 1 auto
-    
-  .editor
-    flex 1 0 auto
     
 .menubar, .statusbar
   flex 0 0 auto
@@ -50,16 +48,17 @@ body
 .menubar
   display flex
   flex-flow row
-    
+  font-size 13px
+  
   ul
     flex 1 0 auto
     list-style-type none
     padding 0
     background darken(background, 65%)
     
-    li:hover
+    li:not(.separator):hover
       background lighten(@background, 5%)
-    
+      
     .root
       display inline-block
       padding 0 .5rem
@@ -72,6 +71,12 @@ body
         
         li
           padding 0 2rem
+          margin .2rem 0
           
-        &.hidden
-          display none
+.project
+  display block
+  width 200px
+  background lighten(background, 10%)
+  
+.editor
+  flex 1 0 auto

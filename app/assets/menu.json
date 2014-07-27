@@ -1,14 +1,22 @@
 {
   "File": {
-    "New": "ce:newFile",
-    "Open": "ce:openFile",
-    "Save": "ce:saveFile",
-    "Save As": "ce:saveFileAs",
+    "New": "editor:newFile",
+    "Open": "editor:openFile",
+    "Save": "editor:saveFile",
+    "Save As": "editor:saveFileAs",
     "-": "",
-    "Close": "ce:close"
+    "Close": "app:close"
+  },
+  "Project": {
+    "Add Directory": "project:addDirectory",
+    "Remove All Directories": "project:removeDirectories",
+    "-": "",
+    "Save Project File": "project:saveProject",
+    "Open Project File": "project:openProject",
+    "Close Project": "project:closeProject"
   },
   "Developer": {
-    "Reload": "ce:reload",
-    "Show Dev Tools": "ce:devTools"
+    "Reload": "app:reload",
+    "Show Dev Tools": "app:devTools"
   }
 }

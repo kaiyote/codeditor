@@ -1,24 +1,28 @@
 Application =
-  controller: class
-    constructor: ->
-      @app = require('nw.gui').App
-      @window = do require('nw.gui').Window.get
-      @menuCtrl = new MenuBar.controller
-      
-      @app.on 'ce:close', =>
-        do @window.close
-        
-      @app.on 'ce:reload', =>
-        do @window.reloadIgnoringCache
-        
-      @app.on 'ce:devTools', =>
-        do @window.showDevTools
-        
   view: (ctrl) -> [
     m '.menubar', MenuBar.view ctrl.menuCtrl
     m '.mainContainer', [
-      m '.project', 'Project'
+      m '.project', Project.view ctrl.projCtrl
       m '.editor', 'Editor'
     ]
     m '.statusbar', 'Status Bar'
   ]
+  
+  controller: class
+    constructor: ->
+      gui = require 'nw.gui'
+      @app = Application.Emitter
+      @window = do gui.Window.get
+      @menuCtrl = new MenuBar.controller
+      @projCtrl = new Project.controller
+      
+      @app.on 'app:close', =>
+        do @window.close
+        
+      @app.on 'app:reload', =>
+        do @window.reloadIgnoringCache
+        
+      @app.on 'app:devTools', =>
+        do @window.showDevTools
+        
+  Emitter: require('nw.gui').App
