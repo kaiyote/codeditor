@@ -55,18 +55,23 @@ body
     flex 1 0 auto
     list-style-type none
     padding 0
-    margin-left .7rem
     background darken(background, 65%)
+    
+    li:hover
+      background lighten(@background, 5%)
     
     .root
       display inline-block
-      padding-right 1rem
+      padding 0 .5rem
       cursor pointer
       
       .menu
         position absolute
-        margin-left -.7rem
-        padding .2rem 2rem
+        margin-left -.5rem
+        padding .2rem 0
         
+        li
+          padding 0 2rem
+          
         &.hidden
           display none

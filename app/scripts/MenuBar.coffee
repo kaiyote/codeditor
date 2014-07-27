@@ -1,7 +1,7 @@
 MenuBar =
   controller: class
     constructor: ->
-      @window = do require('nw.gui').Window.get
+      @gui = require('nw.gui')
       do m.startComputation
       require('fs').readFile 'menu.json', encoding: 'utf8', (err, data) =>
         @menus = JSON.parse data
@@ -38,5 +38,7 @@ MenuBar =
           onmouseover: ctrl.showMouseover
         , key
         m 'ul.menu.hidden', _.map value, (subValue, key) ->
-          m 'li.menuitem', key
+          m 'li.menuitem',
+            onclick: -> ctrl.gui.App.emit subValue
+          , key
       ]
