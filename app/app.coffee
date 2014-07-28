@@ -1,3 +1,3 @@
 'use strict'
 document.addEventListener 'DOMContentLoaded', ->
-  m.module document.body, Application
+  m.module document.querySelector('.wrapper'), Application

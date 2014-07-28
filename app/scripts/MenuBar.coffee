@@ -9,27 +9,28 @@ MenuBar =
         m 'ul.menu.hidden', _.map value, (subValue, key) ->
           m 'li.menuitem',
             class: if key is '-' then 'separator' else ''
-            onclick: -> ctrl.gui.App.emit subValue if subValue
+            onclick: -> ctrl.app.emit subValue if subValue
           , if key isnt '-' then key else m 'hr'
       ]
       
   controller: class
     constructor: ->
       @gui = require('nw.gui')
+      @app = Application.Emitter
       @events = []
       do m.startComputation
       require('fs').readFile 'menu.json', encoding: 'utf8', (err, data) =>
         @menus = JSON.parse data
         do m.endComputation
         
-      document.onclick = =>
+      document.querySelector('.wrapper').onclick = =>
         for element in document.querySelectorAll('.menu')
           element.classList.add 'hidden'
         @mouseOver = no
         
       #mostly for debugging purposes
       @gui.Window.get().on 'loading', =>
-        do @gui.App.removeAllListeners
+        do @app.removeAllListeners
           
     showMenu: (target, isHidden) =>
       for element in document.querySelectorAll('.menu')
