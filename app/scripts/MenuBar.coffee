@@ -19,7 +19,7 @@ MenuBar =
       @app = Application.Emitter
       @events = []
       do m.startComputation
-      require('fs').readFile 'menu.json', encoding: 'utf8', (err, data) =>
+      require('fs').readFile 'settings/menu.json', encoding: 'utf8', (err, data) =>
         @menus = JSON.parse data
         do m.endComputation
         
