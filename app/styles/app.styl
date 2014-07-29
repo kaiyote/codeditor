@@ -34,6 +34,9 @@ body, html, .wrapper
 .hidden
   display none
   
+ul.unstyled
+  list-style-type none
+  
 .mainContainer
   display flex
   flex-flow row
@@ -52,7 +55,6 @@ body, html, .wrapper
   
   ul
     flex 1 0 auto
-    list-style-type none
     padding 0
     background darken(background, 65%)
     
@@ -75,8 +77,21 @@ body, html, .wrapper
           
 .project
   display block
-  width 200px
+  width 14.3rem
+  min-width 14.3rem
   background lighten(background, 10%)
+  
+  ul
+    margin .3rem 0 0 .5rem
+    padding 0
+    font-size 12px
+    
+    li
+      cursor pointer
+    
+    li.root
+      font-weight bold
+      margin .3rem 0
   
 .editor
   flex 1 0 auto

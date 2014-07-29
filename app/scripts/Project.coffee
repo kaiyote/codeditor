@@ -1,6 +1,7 @@
 Project =
   view: (ctrl) -> [
-    m 'span', 'Project'
+    m 'ul.unstyled', ctrl.project().directories().map (element) ->
+      m 'li.root', element
   ]
   
   controller: class
@@ -17,7 +18,7 @@ Project =
         do directory.click
         
       @app.on 'project:removeDirectories', =>
-        alert 'removing directories'
+        do @project().removeDirectories
         
       @app.on 'project:saveProject', =>
         alert 'saving project'
@@ -34,4 +35,8 @@ Project =
       
     addDirectory: (path) ->
       @directories().push path if !_.contains @directories(), path
-      console.log do @directories
+      do m.redraw
+      
+    removeDirectories: ->
+      @directories do @directories().splice
+      do m.redraw

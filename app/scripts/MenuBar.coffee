@@ -1,12 +1,12 @@
 MenuBar =
   view: (ctrl) ->
-    m 'ul', _.map ctrl.menus, (value, key) ->
+    m 'ul.unstyled', _.map ctrl.menus, (value, key) ->
       m 'li.root', [
         m 'span',
           onclick: ctrl.toggleMenu
           onmouseover: ctrl.showMouseover
         , key
-        m 'ul.menu.hidden', _.map value, (subValue, key) ->
+        m 'ul.menu.unstyled.hidden', _.map value, (subValue, key) ->
           m 'li.menuitem',
             class: if key is '-' then 'separator' else ''
             onclick: -> ctrl.app.emit subValue if subValue
