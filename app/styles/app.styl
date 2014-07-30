@@ -81,30 +81,48 @@ ul.unstyled
   min-width 14.3rem
   background lighten(background, 10%)
   
+  .expander
+    display inline-block
+    margin-right .2rem
+    -webkit-transform rotateZ(90deg)
+    transition -webkit-transform .2s
+    
+    &.collapsed
+      -webkit-transform rotateZ(0)
+  
   ul
     margin .3rem 0 0 .5rem
     padding 0
     font-size 12px
+    
+    hr
+      height 0
+      border transparent
+      border-bottom 1px dotted foreground
+      color lighten(background, 10%)
+      width 4rem
+      margin 0
     
     &.collapsed
       display none
       
     &:not(.root)
       border-left 1px dotted foreground
+      margin-left .15rem
       
     &.root
-      margin-left -.5rem
+      margin-left -.3rem
       
-    li
-      cursor pointer
-      margin .3rem 0 0 .5rem
-      
-      .directory
-        font-weight bold
-        color darken(foreground, 30%)
+      li
+        cursor pointer
+        margin .3rem 0 0 .5rem
         
-      .file
-        color foreground
+        &.directory
+          font-weight bold
+          color darken(foreground, 30%)
+          
+        &.file
+          color foreground
   
 .editor
   flex 1 0 auto

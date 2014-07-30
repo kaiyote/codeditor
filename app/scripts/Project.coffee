@@ -47,21 +47,23 @@ Project =
 Directory =
   view: (ctrl) ->
     m 'li.directory', [
+      m '.expander',
+        class: if ctrl.root.loaded then '' else 'collapsed'
+      , '>'
       m 'span',
         onclick: -> if ctrl.root.loaded then do ctrl.collapse else do ctrl.expand
       , ctrl.root.name
       m 'ul.unstyled',
         class: if ctrl.root.loaded then '' else 'collapsed'
       , [
-        ctrl.root.directories.map (dir) ->
-          Directory.view(new Directory.controller dir)
-        ctrl.root.files.map (file) ->
-          File.view(new File.controller file)
+        ctrl.root.directories.map (dir) -> Directory.view(new Directory.controller dir)
+        ctrl.root.files.map (file) -> File.view(new File.controller file)
+        m 'hr' unless ctrl.root.directories.length or ctrl.root.files.length
       ]
     ]
     
   controller: class
-    constructor: (@root, @isRoot) ->
+    constructor: (@root) ->
       
     expand: ->
       if @root.directories.length is 0 then do @root.LoadChildren else @root.loaded = yes
