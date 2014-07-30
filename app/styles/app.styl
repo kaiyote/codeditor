@@ -41,7 +41,7 @@ ul.unstyled
   display flex
   flex-flow row
   flex 1 0 auto
-    
+  
 .menubar, .statusbar
   flex 0 0 auto
   height 1.7rem
@@ -86,12 +86,25 @@ ul.unstyled
     padding 0
     font-size 12px
     
+    &.collapsed
+      display none
+      
+    &:not(.root)
+      border-left 1px dotted foreground
+      
+    &.root
+      margin-left -.5rem
+      
     li
       cursor pointer
-    
-    li.root
-      font-weight bold
-      margin .3rem 0
+      margin .3rem 0 0 .5rem
+      
+      .directory
+        font-weight bold
+        color darken(foreground, 30%)
+        
+      .file
+        color foreground
   
 .editor
   flex 1 0 auto

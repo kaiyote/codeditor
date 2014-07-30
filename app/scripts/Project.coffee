@@ -1,7 +1,7 @@
 Project =
   view: (ctrl) -> [
-    m 'ul.unstyled', ctrl.project().directories().map (element) ->
-      m 'li.root', element
+    m 'ul.unstyled.root', ctrl.project.directories.map (dir) ->
+      Directory.view(new Directory.controller dir)
   ]
   
   controller: class
@@ -9,16 +9,16 @@ Project =
       @app = Application.Emitter
       @path = require 'path'
       @fs = require 'fs'
-      @project = m.prop new Project.Project
+      @project = new Project.Project
       
       @app.on 'project:addDirectory', =>
         directory = document.querySelector 'input#directory'
         directory.onchange = =>
-          @project().addDirectory directory.value
+          @project.addDirectory directory.value
         do directory.click
         
       @app.on 'project:removeDirectories', =>
-        do @project().removeDirectories
+        do @project.removeDirectories
         
       @app.on 'project:saveProject', =>
         alert 'saving project'
@@ -31,12 +31,73 @@ Project =
         
   Project: class
     constructor: ->
-      @directories = m.prop []
+      @directories = []
       
     addDirectory: (path) ->
-      @directories().push path if !_.contains @directories(), path
-      do m.redraw
+      if (!_.find @directories, (dir) -> dir.root is path)
+        dir = new Directory.Directory path
+        do dir.LoadChildren
+        @directories.push dir
+        do m.redraw
       
     removeDirectories: ->
-      @directories do @directories().splice
+      @directories = do @directories.splice
       do m.redraw
+        
+Directory =
+  view: (ctrl) ->
+    m 'li.directory', [
+      m 'span',
+        onclick: -> if ctrl.root.loaded then do ctrl.collapse else do ctrl.expand
+      , ctrl.root.name
+      m 'ul.unstyled',
+        class: if ctrl.root.loaded then '' else 'collapsed'
+      , [
+        ctrl.root.directories.map (dir) ->
+          Directory.view(new Directory.controller dir)
+        ctrl.root.files.map (file) ->
+          File.view(new File.controller file)
+      ]
+    ]
+    
+  controller: class
+    constructor: (@root, @isRoot) ->
+      
+    expand: ->
+      if @root.directories.length is 0 then do @root.LoadChildren else @root.loaded = yes
+      do m.redraw
+      
+    collapse: ->
+      @root.loaded = no
+      do m.redraw
+      
+  Directory: class
+    constructor: (@root) ->
+      @files = []
+      @directories = []
+      @name = require('path').basename @root
+      @loaded = no
+      
+    LoadChildren: ->
+      d = do require('domain').create
+      d.on 'error', (err) ->
+      d.run =>
+        require('fs').readdir @root, (err, files) =>
+          if !err
+            files = files.map (file) => require('path').join(@root, file)
+            for file in files
+              stat = require('fs').statSync file
+              if do stat.isDirectory
+                @directories.push new Directory.Directory file unless _.contains @directories, file
+              else
+                @files.push file unless _.contains @files, file
+            @loaded = true
+          do m.redraw
+          
+File =
+  view: (ctrl) ->
+    m 'li.file', m 'span', ctrl.name
+    
+  controller: class
+    constructor: (@root) ->
+      @name = require('path').basename @root
