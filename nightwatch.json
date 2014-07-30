@@ -5,6 +5,7 @@
   "selenium": {
     "start_process": true,
     "server_path": "test/selenium-server-standalone-2.42.2.jar",
+    "log_path": false,
     "cli_args": {
       "webdriver.chrome.driver": "test/chromedriver.exe"
     }

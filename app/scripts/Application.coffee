@@ -16,6 +16,9 @@ Application =
       @menuCtrl = new MenuBar.controller
       @projCtrl = new Project.controller
       
+      if DataStore.Create('simple').get 'project'
+        Application.Emitter.emit 'project:openProject', yes
+      
       @app.on 'app:close', =>
         do @window.close
         

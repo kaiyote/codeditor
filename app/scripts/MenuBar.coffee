@@ -20,7 +20,7 @@ MenuBar =
       @events = []
       do m.startComputation
       require('fs').readFile 'settings/menu.json', encoding: 'utf8', (err, data) =>
-        @menus = JSON.parse data
+        @menus = JSON.parse data unless err
         do m.endComputation
         
       document.querySelector('.wrapper').onclick = =>

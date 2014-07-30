@@ -15,19 +15,34 @@ Project =
         directory = document.querySelector 'input#directory'
         directory.onchange = =>
           @project.addDirectory directory.value
+          directory.value = ''
         do directory.click
         
       @app.on 'project:removeDirectories', =>
         do @project.removeDirectories
         
       @app.on 'project:saveProject', =>
-        alert 'saving project'
+        file = document.querySelector 'input#save'
+        file.onchange = =>
+          @project.saveProject file.value
+          file.value = ''
+        do file.click
         
-      @app.on 'project:openProject', =>
-        alert 'opening project'
-        
+      @app.on 'project:openProject', (autoLoad) =>
+        if _.isBoolean autoLoad and autoLoad is  yes
+          data = JSON.parse DataStore.Create('simple').get 'project'
+          @project.loadProject data
+        else
+          file = document.querySelector 'input#file'
+          file.onchange = =>
+            require('fs').readFile file.value, encoding: 'utf8', (err, data) =>
+              unless err
+                data = JSON.parse data
+                @project.loadProject data
+          do file.click
+          
       @app.on 'project:closeProject', =>
-        alert 'closing project'
+        do @project.closeProject
         
   Project: class
     constructor: ->
@@ -41,16 +56,31 @@ Project =
         do m.redraw
       
     removeDirectories: ->
-      @directories = do @directories.splice
+      @directories = []
       do m.redraw
-        
+      
+    saveProject: (path) ->
+      project =
+        dirs: @directories.map (dir) -> dir.root
+      require('fs').writeFile path, JSON.stringify(project), (err) ->
+        unless err
+          DataStore.Create('simple').set 'project', JSON.stringify project
+          
+    loadProject: (data) ->
+      @addDirectory dir for dir in data.dirs
+      DataStore.Create('simple').set 'project', JSON.stringify data
+      
+    closeProject: ->
+      @directories = []
+      DataStore.Create('simple').delete 'project'
+      
 Directory =
   view: (ctrl) ->
     m 'li.directory', [
       m '.expander',
         class: if ctrl.root.loaded then '' else 'collapsed'
       , '>'
-      m 'span',
+      m 'div',
         onclick: -> if ctrl.root.loaded then do ctrl.collapse else do ctrl.expand
       , ctrl.root.name
       m 'ul.unstyled',
@@ -93,12 +123,14 @@ Directory =
                 @directories.push new Directory.Directory file unless _.contains @directories, file
               else
                 @files.push file unless _.contains @files, file
+            @directories = _.sortBy @directories, (directory) -> do directory.root.toLowerCase
+            @files = _.sortBy @files, (file) -> do file.toLowerCase
             @loaded = true
           do m.redraw
           
 File =
   view: (ctrl) ->
-    m 'li.file', m 'span', ctrl.name
+    m 'li.file', m 'div', ctrl.name
     
   controller: class
     constructor: (@root) ->

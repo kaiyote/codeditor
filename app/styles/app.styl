@@ -21,6 +21,7 @@ body, html, .wrapper
   font-size 14px
   background background
   color foreground
+  text-rendering optimizeLegibility
 
 .wrapper
   display flex
@@ -81,14 +82,21 @@ ul.unstyled
   min-width 14.3rem
   background lighten(background, 10%)
   
-  .expander
+  div
     display inline-block
-    margin-right .2rem
-    -webkit-transform rotateZ(90deg)
-    transition -webkit-transform .2s
+    border-radius 2px
+    cursor pointer
     
-    &.collapsed
-      -webkit-transform rotateZ(0)
+    &:not(.expander):hover
+      background lighten(background, 20%)
+    
+    &.expander
+      margin-right .2rem
+      -webkit-transform rotateZ(90deg)
+      transition -webkit-transform .2s
+      
+      &.collapsed
+        -webkit-transform rotateZ(0)
   
   ul
     margin .3rem 0 0 .5rem
@@ -114,15 +122,20 @@ ul.unstyled
       margin-left -.3rem
       
       li
-        cursor pointer
         margin .3rem 0 0 .5rem
         
         &.directory
           font-weight bold
-          color darken(foreground, 30%)
+          color darken(foreground, 20%)
+          
+          div:not(.expander)
+            width 90%
           
         &.file
           color foreground
+          
+          div:not(.expander)
+            width 95%
   
 .editor
   flex 1 0 auto
