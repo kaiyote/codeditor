@@ -1,5 +1,4 @@
-path = require 'path'
-baseurl = 'file:///' + path.join do process.cwd, '_public', 'index.html'
+baseurl = 'file:///' + require('path').join do process.cwd, '_public', 'index.html'
 
 module.exports =
   setUp: (browser) ->

@@ -29,7 +29,7 @@ Project =
         do file.click
         
       @app.on 'project:openProject', (autoLoad) =>
-        if _.isBoolean autoLoad and autoLoad is  yes
+        if _.isBoolean autoLoad and autoLoad is yes
           data = JSON.parse DataStore.Create('simple').get 'project'
           @project.loadProject data
         else
