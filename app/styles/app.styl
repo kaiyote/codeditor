@@ -48,7 +48,6 @@ ul.unstyled
   display flex
   flex-flow row
   flex 1 0 auto
-  max-height 100% - 4.6rem
   
 .menubar
   display flex
@@ -84,6 +83,7 @@ ul.unstyled
   width 14.3rem
   min-width 14.3rem
   background lighten(background, 10%)
+  position relative
   overflow-y auto
   overflow-x auto
   
@@ -120,11 +120,16 @@ ul.unstyled
       display none
       
     &:not(.root)
-      border-left 1px dotted foreground
+      border-left 1px dotted darken(foreground, 20%)
       margin-left .15rem
       
     &.root
       margin-left -.3rem
+      position absolute
+      top 0
+      bottom 0
+      right 0
+      left 0
       
       li
         margin .3rem 0 0 .5rem
