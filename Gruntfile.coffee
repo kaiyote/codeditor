@@ -46,3 +46,13 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-copy'
   grunt.registerTask 'default', ['nodewebkit']
+  grunt.registerTask 'ace', ->
+    try
+      config = grunt.file.readJSON 'bower_components/ace-builds/.bower.json'
+      unless config.main
+        config.main = 'ace.js'
+        grunt.file.write 'bower_components/ace-builds/.bower.json', JSON.stringify config, null, 2
+      return true
+    catch e
+      grunt.log.error "Error reading ace-builds' bower.json.  Check to make sure you've installed the bower packages."
+      return false

@@ -3,7 +3,7 @@ Application =
     m '.menubar', MenuBar.view ctrl.menuCtrl
     m '.mainContainer', [
       m '.project', Project.view ctrl.projCtrl
-      m '.editor', 'Editor'
+      m '.editor', Editor.view ctrl.editorCtrl
     ]
     m '.statusbar', 'Status Bar'
   ]
@@ -15,6 +15,7 @@ Application =
       @window = do gui.Window.get
       @menuCtrl = new MenuBar.controller
       @projCtrl = new Project.controller
+      @editorCtrl = new Editor.controller
       
       if DataStore.Create('simple').get 'project'
         Application.Emitter.emit 'project:openProject', yes

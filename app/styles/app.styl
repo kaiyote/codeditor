@@ -58,6 +58,8 @@ ul.unstyled
     flex 1 0 auto
     padding 0
     background darken(background, 65%)
+    // just high enough to be on top of ace
+    z-index 5
     
     li:not(.separator):hover
       background lighten(@background, 5%)
@@ -89,7 +91,7 @@ ul.unstyled
     
     &:not(.expander):hover
       background lighten(background, 20%)
-    
+      
     &.expander
       margin-right .2rem
       -webkit-transform rotateZ(90deg)
@@ -97,7 +99,7 @@ ul.unstyled
       
       &.collapsed
         -webkit-transform rotateZ(0)
-  
+        
   ul
     margin .3rem 0 0 .5rem
     padding 0
@@ -110,7 +112,7 @@ ul.unstyled
       color lighten(background, 10%)
       width 4rem
       margin 0
-    
+      
     &.collapsed
       display none
       
@@ -130,12 +132,16 @@ ul.unstyled
           
           div:not(.expander)
             width 90%
-          
+            
         &.file
           color foreground
           
           div:not(.expander)
             width 95%
-  
+            
 .editor
   flex 1 0 auto
+  display flex
+  
+  #editor
+    flex 1 0 auto
