@@ -5,7 +5,7 @@ Application =
       m '.project', Project.view ctrl.projCtrl
       m '.editor', Editor.view ctrl.editorCtrl
     ]
-    m '.statusbar', 'Status Bar'
+    m '.statusbar', StatusBar.view ctrl.statusCtrl
   ]
   
   controller: class
@@ -16,6 +16,7 @@ Application =
       @menuCtrl = new MenuBar.controller
       @projCtrl = new Project.controller
       @editorCtrl = new Editor.controller
+      @statusCtrl = new StatusBar.controller
       
       if DataStore.Create('simple').get 'project'
         Application.Emitter.emit 'project:openProject', yes

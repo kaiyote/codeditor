@@ -37,11 +37,13 @@ body, html, .wrapper
   
 ul.unstyled
   list-style-type none
+  margin 0
   
 .menubar, .statusbar
   flex 0 0 auto
   height 1.7rem
   align-items center
+  align-content center
   background darken(background, 65%)
   
 .mainContainer
@@ -78,15 +80,41 @@ ul.unstyled
           padding 0 2rem
           margin .2rem 0
           
+.statusbar
+  display flex
+  flex-flow row
+  font-size 13px
+  
+  .project-toggle
+    padding-left .3rem
+    cursor pointer
+    
+    div
+      transition -webkit-transform .2s
+      display inline-block
+      
+    &.collapsed div
+      -webkit-transform rotateZ(-180deg)
+      
+  .cursor
+    padding-left .3rem
+    margin-top -.1rem
+    flex 1 0 auto
+    
 .project
   display block
   width 14.3rem
-  min-width 14.3rem
   background lighten(background, 10%)
   position relative
-  overflow-y auto
-  overflow-x auto
+  overflow auto
+  transition width .2s
+  flex 0 0 auto
+  white-space nowrap
   
+  &.collapsed
+    width 0
+    overflow hidden
+    
   div
     display inline-block
     border-radius 2px

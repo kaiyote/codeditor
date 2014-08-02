@@ -44,6 +44,14 @@ Project =
       @app.on 'project:closeProject', =>
         do @project.closeProject
         
+      @app.on 'project:toggle', =>
+        projElm = document.querySelector '.project'
+        if projElm.classList.contains 'collapsed'
+          projElm.classList.remove 'collapsed'
+        else
+          projElm.classList.add 'collapsed'
+        do m.redraw
+        
   Project: class
     constructor: ->
       @directories = []

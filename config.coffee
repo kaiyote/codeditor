@@ -26,4 +26,4 @@ exports.config =
       pretty: yes # Adds pretty-indentation whitespaces to output (false by default)
     assetsmanager:
       copyTo:
-        'js/ace': ['bower_components/ace-builds/src-min-noconflict/*']
+        'js/ace': ['bower_components/ace-builds/src-min-noconflict/worker*']
