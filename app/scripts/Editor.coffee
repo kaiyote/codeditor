@@ -1,15 +1,16 @@
 Editor =
   view: (ctrl) -> [
-    m '#tabs', [
-      m '.tab.active', [
-        m 'span.label', 'this is a tab'
-        m '.status', 'x'
+    m '#tabs', ctrl.tabs.map (tab) ->
+      m 'span.tab',
+        class: if tab.active then 'active' else ''
+      , [
+        m 'a.label',
+          onclick: -> ctrl.switchSession tab
+        , tab.name
+        m 'a.status',
+          onclick: -> ctrl.closeTab tab
+        , 'x'
       ]
-      m '.tab', [
-        m 'span.label', 'another tab'
-        m '.status', 'o'
-      ]
-    ]
     m '#editor', config: (element, isInit) -> ctrl.init element, isInit
   ]
     
@@ -43,18 +44,36 @@ Editor =
             do fileElm.click
           else
             @openFile file
-          
+            
         @app.emit 'status:setTheme', do @editor.getTheme
         @app.emit 'status:setMode', @editor.getSession().getMode().$id
         
     openFile: (path) ->
-      require('fs').readFile path, encoding: 'utf8', (err, data) =>
-        unless err
-          @editor.setValue data, -1
-          newMode = ace.require('ace/ext/modelist').getModeForPath(path).mode
-          @editor.getSession().setMode newMode
-          @app.emit 'status:setMode', newMode
-          
-  Tab: class
-    constructor: (@session, @name) ->
+      currentTab = _.findWhere @tabs, {root: path}
+      unless currentTab
+        require('fs').readFile path, encoding: 'utf8', (err, data) =>
+          unless err
+            newMode = ace.require('ace/ext/modelist').getModeForPath(path).mode
+            session = new ace.EditSession data, newMode
+            tab = new Editor.Tab session, path
+            @tabs.push tab
+            @switchSession tab
+      else
+        @switchSession currentTab
+        
+    switchSession: (tab) ->
+      @editor.setSession tab.session
+      for tabb in @tabs
+        tabb.active = if tabb.root is tab.root then yes else no
+      @app.emit 'status:setMode', tab.session.getMode().$id
+      do m.redraw
       
+    closeTab: (tab) ->
+      index = @tabs.indexOf tab
+      oldTab = @tabs.splice index, 1
+      @switchSession _.findWhere(@tabs, {active: yes}) or if index < @tabs.length then @tabs[index] else @tabs[@tabs.length - 1]
+      
+  Tab: class
+    constructor: (@session, @root) ->
+      @name = require('path').basename @root
+      @active = no

@@ -50,6 +50,8 @@ ul.unstyled
   display flex
   flex-flow row
   flex 1 0 auto
+  align-items stretch
+  align-content stretch
   
 .menubar
   display flex
@@ -193,22 +195,25 @@ ul.unstyled
             width 95%
             
 .editor
-  flex 1 0 auto
+  flex 1 1 auto
   display flex
   flex-flow column
+  align-items stretch
+  align-content stretch
   
   #tabs
     flex 0 0 2rem
     display flex
     justify-content flex-start
-    padding .15rem 0 0 .15rem
+    padding .15rem .15rem 0 .15rem
     
     .tab
       display flex
       flex 1 1 auto
       justify-content space-between
       align-items stretch
-      max-width 10rem
+      max-width 11rem
+      min-width 4rem
       background darken(background, 45%)
       margin-right .2rem
       border-radius .3rem .3rem 0 0
@@ -222,6 +227,9 @@ ul.unstyled
         padding-left .4rem
         white-space nowrap
         text-overflow ellipsis
+        overflow hidden
+        flex 1 1 auto
+        width 100%
         
       &.active
         border-bottom solid .3rem accent
@@ -234,8 +242,10 @@ ul.unstyled
       .status
         font-size 16px
         padding-right .4rem
+        margin-left .4rem
         align-self center
         cursor pointer
+        flex 0 0 auto
         
         &:hover
           color foreground
@@ -262,6 +272,6 @@ ul.unstyled
 
   &:hover
     background-color lighten(background, 35%)
-
+    
 ::-webkit-scrollbar-corner
   background-color transparent
