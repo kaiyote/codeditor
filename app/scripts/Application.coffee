@@ -18,7 +18,7 @@ Application =
       @editorCtrl = new Editor.controller
       @statusCtrl = new StatusBar.controller
       
-      if DataStore.Create('simple').get 'project'
+      if DataStore.get 'project'
         Application.Emitter.emit 'project:openProject', yes
       
       @app.on 'app:close', =>

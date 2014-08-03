@@ -30,7 +30,7 @@ Project =
         
       @app.on 'project:openProject', (autoLoad) =>
         if _.isBoolean autoLoad and autoLoad is yes
-          data = JSON.parse DataStore.Create('simple').get 'project'
+          data = JSON.parse DataStore.get 'project'
           @project.loadProject data
         else
           file = document.querySelector 'input#file'
@@ -72,15 +72,15 @@ Project =
         dirs: @directories.map (dir) -> dir.root
       require('fs').writeFile path, JSON.stringify(project), (err) ->
         unless err
-          DataStore.Create('simple').set 'project', JSON.stringify project
+          DataStore.set 'project', JSON.stringify project
           
     loadProject: (data) ->
       @addDirectory dir for dir in data.dirs
-      DataStore.Create('simple').set 'project', JSON.stringify data
+      DataStore.set 'project', JSON.stringify data
       
     closeProject: ->
       @directories = []
-      DataStore.Create('simple').delete 'project'
+      DataStore.delete 'project'
       
 Directory =
   view: (ctrl) ->
@@ -138,7 +138,11 @@ Directory =
           
 File =
   view: (ctrl) ->
-    m 'li.file', m 'div', ctrl.name
+    m 'li.file', [
+      m 'div',
+        onclick: -> Application.Emitter.emit 'editor:openFile', ctrl.root
+      , ctrl.name
+    ]
     
   controller: class
     constructor: (@root) ->

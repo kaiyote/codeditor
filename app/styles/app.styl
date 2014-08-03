@@ -64,7 +64,11 @@ ul.unstyled
     z-index 5
     
     li:not(.separator):hover
-      background lighten(@background, 5%)
+      background lighten(@background, 10%)
+      
+    li.separator hr
+      border none
+      border-bottom 1px solid lighten(background, 10%)
       
     .root
       display inline-block
@@ -80,6 +84,9 @@ ul.unstyled
           padding 0 2rem
           margin .2rem 0
           
+          &.separator
+            padding 0 .7rem
+            
 .statusbar
   display flex
   flex-flow row
@@ -101,6 +108,16 @@ ul.unstyled
     margin-top -.1rem
     flex 1 0 auto
     
+  select
+    background darken(background, 65%)
+    color foreground
+    -webkit-appearance none
+    width 11rem
+    border none
+    
+    &:focus
+      outline none
+      
 .project
   display block
   width 14.3rem
@@ -178,7 +195,51 @@ ul.unstyled
 .editor
   flex 1 0 auto
   display flex
+  flex-flow column
   
+  #tabs
+    flex 0 0 2rem
+    display flex
+    justify-content flex-start
+    padding .15rem 0 0 .15rem
+    
+    .tab
+      display flex
+      flex 1 1 auto
+      justify-content space-between
+      align-items stretch
+      max-width 10rem
+      background darken(background, 45%)
+      margin-right .2rem
+      border-radius .3rem .3rem 0 0
+      color darken(foreground, 25%)
+      vertical-align middle
+      line-height 1.85rem
+      border-bottom solid .3rem darken(background, 45%)
+      cursor default
+      
+      .label
+        padding-left .4rem
+        white-space nowrap
+        text-overflow ellipsis
+        
+      &.active
+        border-bottom solid .3rem accent
+        color foreground
+        background darken(background, 55%)
+        
+        .status
+          color accent
+          
+      .status
+        font-size 16px
+        padding-right .4rem
+        align-self center
+        cursor pointer
+        
+        &:hover
+          color foreground
+          
   #editor
     flex 1 0 auto
     
