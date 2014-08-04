@@ -7,7 +7,7 @@ StatusBar =
       m 'div', '>'
       m 'div', '>'
     ]
-    m 'span.cursor', "#{ctrl.cursor.row}:#{ctrl.cursor.column}"
+    m 'span.cursor', "#{ctrl.cursor.row + 1}:#{ctrl.cursor.column}"
     m 'select#modes',
       onchange: (evt) -> ctrl.app.emit 'editor:changeMode', evt.target.value
     , ctrl.modes.map (mode) ->

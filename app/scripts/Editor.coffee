@@ -26,9 +26,6 @@ Editor =
         @editor.setTheme DataStore.get('theme') or 'ace/theme/chrome'
         prevFiles = DataStore.get('files') or ['untitled.txt']
         prevFiles.push 'untitled.txt' if prevFiles.length is 0
-        
-        @editor.getSelection().on 'changeCursor', =>
-          Application.Emitter.emit 'status:cursor', do @editor.getCursorPosition
           
         @app.on 'editor:changeTheme', (theme) =>
           @editor.setTheme theme
@@ -83,6 +80,7 @@ Editor =
       for tabb in @tabs
         tabb.active = if tabb is tab then yes else no
       @app.emit 'status:setMode', tab.session.getMode().$id
+      @app.emit 'status:cursor', do tab.session.getSelection().getCursor
       do m.redraw
       
     closeTab: (tab) ->
@@ -99,6 +97,8 @@ Editor =
       @name = require('path').basename @root
       @active = no
       @session = new ace.EditSession data, mode
+      @session.getSelection().on 'changeCursor', =>
+          Application.Emitter.emit 'status:cursor', do @session.getSelection().getCursor
       unless @root is 'untitled.txt'
         files = DataStore.get('files') or []
         files.push @root unless -1 < files.indexOf @root
