@@ -9,8 +9,8 @@
     "url": "https://github.com/kaiyote/node-webkit-stylish-seed"
   },
   "scripts": {
-    "compiler": "grunt ace && brunch watch",
-    "mock": "grunt ace && brunch watch -P",
+    "compiler": "brunch watch",
+    "mock": "brunch watch -P",
     "test": "grunt nodeunit",
     "e2e": "grunt copy:test && grunt coffee:test && coffee nightwatch.coffee && grunt clean:test",
     "app": "nodewebkit _public",

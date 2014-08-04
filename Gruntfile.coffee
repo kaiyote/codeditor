@@ -46,18 +46,3 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-contrib-clean'
   grunt.loadNpmTasks 'grunt-contrib-copy'
   grunt.registerTask 'default', ['nodewebkit']
-  grunt.registerTask 'ace', ->
-    try
-      path = require 'path'
-      config = grunt.file.readJSON 'bower_components/ace-builds/.bower.json'
-      unless config.main
-        files = []
-        grunt.file.recurse 'bower_components/ace-builds/src-noconflict', (abspath, rootdir, subdir, filename) ->
-          if filename.indexOf('worker') is -1 and subdir is undefined
-            files.push path.join 'src-noconflict', filename
-        config.main = files
-        grunt.file.write 'bower_components/ace-builds/.bower.json', JSON.stringify config, null, 2
-      return true
-    catch e
-      grunt.log.error "Error reading ace-builds' bower.json.  Check to make sure you've installed the bower packages.\n" + e
-      return false

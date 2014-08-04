@@ -46,6 +46,14 @@ Editor =
             
         @app.on 'editor:newFile', => @openFile ''
         
+        @app.on 'editor:saveFile', =>
+          tab = _.findWhere @tabs, active: yes
+          @saveFile tab.root, do tab.session.getValue
+          
+        @app.on 'editor:saveFileAs', =>
+          tab = _.findWhere @tabs, active: yes
+          @saveFileAs do tab.session.getValue
+          
         @openFile file for file in prevFiles
         
         @app.emit 'status:setTheme', do @editor.getTheme
@@ -75,6 +83,31 @@ Editor =
       else
         @switchSession currentTab
         
+    saveFile: (path, content) ->
+      unless path is 'untitled.txt'
+        require('fs').writeFile path, content, (err) ->
+          if err
+            m.render document.querySelector('#dialog'), Dialog 'Save Error', m 'span', err
+            do document.querySelector('#dialog').showModal
+      else
+        @saveFileAs content
+        
+    saveFileAs: (content) ->
+      file = document.querySelector 'input#save'
+      file.onchange = =>
+        path = file.value
+        require('fs').writeFile file.value, content, (err) =>
+          if err
+            m.render document.querySelector('#dialog'), Dialog 'Save Error', m 'span', err
+            do document.querySelector('#dialog').showModal
+          else
+            currentTab = _.findWhere @tabs, active: yes
+            tab = new Editor.Tab path, content, ace.require('ace/ext/modelist').getModeForPath(path).mode
+            @tabs[@tabs.indexOf currentTab] = tab
+            @switchSession tab
+        file.value = ''
+      do file.click
+      
     switchSession: (tab) ->
       @editor.setSession tab.session
       for tabb in @tabs
@@ -91,7 +124,7 @@ Editor =
         @openFile ''
       else
         @switchSession _.findWhere(@tabs, {active: yes}) or if index < @tabs.length then @tabs[index] else @tabs[@tabs.length - 1]
-      
+        
   Tab: class
     constructor: (@root, data, mode) ->
       @name = require('path').basename @root

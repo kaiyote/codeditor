@@ -6,6 +6,7 @@ Application =
       m '.editor', Editor.view ctrl.editorCtrl
     ]
     m '.statusbar', StatusBar.view ctrl.statusCtrl
+    m 'dialog#dialog', ''
   ]
   
   controller: class

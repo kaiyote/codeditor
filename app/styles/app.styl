@@ -253,6 +253,33 @@ ul.unstyled
   #editor
     flex 1 0 auto
     
+#dialog
+  width 40%
+  margin 0 auto
+  
+  &::backdrop
+    position fixed
+    top 0
+    left 0
+    right 0
+    bottom 0
+    background-color rgba(0,0,0,0.4)
+    
+  .title
+    font-size 18px
+    font-weight bold
+    text-align center
+    color background
+    
+  .internal
+    border 1px solid lighten(background, 30%)
+    
+  .controls
+    text-align center
+    
+    input
+      width 5rem
+    
 ::-webkit-scrollbar
   width 15px
   height 15px
