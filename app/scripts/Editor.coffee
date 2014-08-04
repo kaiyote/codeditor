@@ -24,6 +24,8 @@ Editor =
       unless isInit
         @editor = ace.edit element
         @editor.setTheme DataStore.get('theme') or 'ace/theme/chrome'
+        prevFiles = DataStore.get('files') or ['untitled.txt']
+        prevFiles.push 'untitled.txt' if prevFiles.length is 0
         
         @editor.getSelection().on 'changeCursor', =>
           Application.Emitter.emit 'status:cursor', do @editor.getCursorPosition
@@ -35,27 +37,42 @@ Editor =
         @app.on 'editor:changeMode', (mode) =>
           @editor.getSession().setMode mode
           
-        @app.on 'editor:openFile', (file) =>
-          unless file
-            fileElm = document.querySelector 'input#file'
-            fileElm.onchange = =>
-              @openFile fileElm.value
-              fileElm.value = ''
-            do fileElm.click
+        @app.on 'editor:openFile', (path) =>
+          unless path
+            file = document.querySelector 'input#file'
+            file.onchange = =>
+              @openFile file.value
+              file.value = ''
+            do file.click
           else
-            @openFile file
+            @openFile path
             
+        @app.on 'editor:newFile', => @openFile ''
+        
+        @openFile file for file in prevFiles
+        
         @app.emit 'status:setTheme', do @editor.getTheme
-        @app.emit 'status:setMode', @editor.getSession().getMode().$id
         
     openFile: (path) ->
-      currentTab = _.findWhere @tabs, {root: path}
+      currentTab = _.findWhere(@tabs, {root: path}) or _.findWhere @tabs, {root: 'untitled.txt', active: yes}
       unless currentTab
         require('fs').readFile path, encoding: 'utf8', (err, data) =>
           unless err
-            newMode = ace.require('ace/ext/modelist').getModeForPath(path).mode
-            session = new ace.EditSession data, newMode
-            tab = new Editor.Tab session, path
+            tab = new Editor.Tab path, data, ace.require('ace/ext/modelist').getModeForPath(path).mode
+            @tabs.push tab
+            @switchSession tab
+          else
+            tab = new Editor.Tab 'untitled.txt', '', 'ace/mode/text'
+            @tabs.push tab
+            @switchSession tab
+      else if currentTab.root is 'untitled.txt'
+        require('fs').readFile path, encoding: 'utf8', (err, data) =>
+          unless err
+            tab = new Editor.Tab path, data, ace.require('ace/ext/modelist').getModeForPath(path).mode
+            @tabs[@tabs.indexOf currentTab] = tab
+            @switchSession tab
+          else
+            tab = new Editor.Tab 'untitled.txt', '', 'ace/mode/text'
             @tabs.push tab
             @switchSession tab
       else
@@ -64,16 +81,25 @@ Editor =
     switchSession: (tab) ->
       @editor.setSession tab.session
       for tabb in @tabs
-        tabb.active = if tabb.root is tab.root then yes else no
+        tabb.active = if tabb is tab then yes else no
       @app.emit 'status:setMode', tab.session.getMode().$id
       do m.redraw
       
     closeTab: (tab) ->
       index = @tabs.indexOf tab
       oldTab = @tabs.splice index, 1
-      @switchSession _.findWhere(@tabs, {active: yes}) or if index < @tabs.length then @tabs[index] else @tabs[@tabs.length - 1]
+      DataStore.set 'files', do _.chain(@tabs).filter((tab) -> tab.root isnt 'untitled.txt').map((tab) -> tab.root).value
+      if @tabs.length is 0
+        @openFile ''
+      else
+        @switchSession _.findWhere(@tabs, {active: yes}) or if index < @tabs.length then @tabs[index] else @tabs[@tabs.length - 1]
       
   Tab: class
-    constructor: (@session, @root) ->
+    constructor: (@root, data, mode) ->
       @name = require('path').basename @root
       @active = no
+      @session = new ace.EditSession data, mode
+      unless @root is 'untitled.txt'
+        files = DataStore.get('files') or []
+        files.push @root unless -1 < files.indexOf @root
+        DataStore.set 'files', files
