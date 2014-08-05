@@ -17,7 +17,7 @@ StatusBar =
     , ctrl.themes.map (theme) ->
       m 'option', value: theme.theme, theme.caption
   ]
-    
+  
   controller: class
     constructor: ->
       @app = Application.Emitter
@@ -26,19 +26,13 @@ StatusBar =
       @cursor =
         row: 0
         column: 0
-      
+        
       @app.on 'status:cursor', (pos) =>
         @cursor = pos
         do m.redraw
         
       @app.on 'status:setTheme', (theme) =>
-        document.querySelector('#themes').selectedIndex = do _.chain @themes
-                                                            .map (myTheme) -> myTheme.theme
-                                                            .indexOf theme
-                                                            .value
-                                                            
+        document.querySelector('#themes').selectedIndex = do _.chain(@themes).map((myTheme) -> myTheme.theme).indexOf(theme).value
+        
       @app.on 'status:setMode', (mode) =>
-        document.querySelector('#modes').selectedIndex = do _.chain @modes
-                                                            .map (myMode) -> myMode.mode
-                                                            .indexOf mode
-                                                            .value
+        document.querySelector('#modes').selectedIndex = do _.chain(@modes).map((myMode) -> myMode.mode).indexOf(mode).value

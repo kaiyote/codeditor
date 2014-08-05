@@ -13,7 +13,7 @@ Editor =
       ]
     m '#editor', config: (element, isInit) -> ctrl.init element, isInit
   ]
-    
+  
   controller: class
     constructor: ->
       @app = Application.Emitter
@@ -131,7 +131,7 @@ Editor =
       @active = no
       @session = new ace.EditSession data, mode
       @session.getSelection().on 'changeCursor', =>
-          Application.Emitter.emit 'status:cursor', do @session.getSelection().getCursor
+        Application.Emitter.emit 'status:cursor', do @session.getSelection().getCursor
       unless @root is 'untitled.txt'
         files = DataStore.get('files') or []
         files.push @root unless -1 < files.indexOf @root

@@ -62,7 +62,7 @@ Project =
         do dir.LoadChildren
         @directories.push dir
         do m.redraw
-      
+        
     removeDirectories: ->
       @directories = []
       do m.redraw

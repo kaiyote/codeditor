@@ -31,7 +31,7 @@ MenuBar =
       #mostly for debugging purposes
       @gui.Window.get().on 'loading', =>
         do @app.removeAllListeners
-          
+        
     showMenu: (target, isHidden) =>
       for element in document.querySelectorAll('.menu')
         element.classList.add 'hidden'

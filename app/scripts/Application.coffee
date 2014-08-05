@@ -21,7 +21,7 @@ Application =
       
       if DataStore.get 'project'
         Application.Emitter.emit 'project:openProject', yes
-      
+        
       @app.on 'app:close', =>
         do @window.close
         
