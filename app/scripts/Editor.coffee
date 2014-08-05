@@ -54,6 +54,9 @@ Editor =
           tab = _.findWhere @tabs, active: yes
           @saveFileAs do tab.session.getValue
           
+        @app.on 'editor:aceCommand', (command) =>
+          @editor.execCommand command
+          
         @openFile file for file in prevFiles
         
         @app.emit 'status:setTheme', do @editor.getTheme
