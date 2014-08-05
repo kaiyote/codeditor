@@ -32,6 +32,8 @@ MenuBar =
       @gui.Window.get().on 'loading', =>
         do @app.removeAllListeners
         
+      do @registerShortCuts
+        
     showMenu: (target, isHidden) =>
       for element in document.querySelectorAll('.menu')
         element.classList.add 'hidden'
@@ -50,3 +52,11 @@ MenuBar =
     showMouseover: (event) =>
       if @mouseOver
         @showMenu event.target.nextSibling, yes
+        
+    registerShortCuts: ->
+      @listener = new window.keypress.Listener null,
+        prevent_default: yes
+        prevent_repeat: yes
+        is_solitary: yes
+        
+      @listener.register_many []
