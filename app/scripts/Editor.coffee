@@ -57,6 +57,16 @@ Editor =
         @app.on 'editor:aceCommand', (command) =>
           @editor.execCommand command
           
+        @app.on 'editor:nextTab', =>
+          currentIndex = _.indexOf @tabs, _.findWhere @tabs, active: yes
+          newTab = @tabs[currentIndex + 1] or @tabs[0]
+          @switchSession newTab
+          
+        @app.on 'editor:previousTab', =>
+          currentIndex = _.indexOf @tabs, _.findWhere @tabs, active: yes
+          newTab = @tabs[currentIndex - 1] or @tabs[@tabs.length - 1]
+          @switchSession newTab
+          
         @openFile file for file in prevFiles
         
         @app.emit 'status:setTheme', do @editor.getTheme

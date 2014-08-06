@@ -9,9 +9,9 @@ MenuBar =
         m 'ul.menu.unstyled.hidden', _.map value, (subValue, key) ->
           ctrl.registerShortCut subValue.keys, subValue.command, subValue.argument if subValue and subValue.command isnt 'editor:aceCommand'
           m 'li.menuitem',
-            class: if key is '-' then 'separator' else ''
+            class: if key.match /^-+$/ then 'separator' else ''
             onclick: -> ctrl.app.emit subValue.command, subValue.argument if subValue
-          , if key is '-' then m 'hr' else [
+          , if key.match /^-+$/ then m 'hr' else [
             m 'span', key
             m 'span.keys', ctrl.getKeyText subValue.keys, subValue.argument
           ]
@@ -68,7 +68,7 @@ MenuBar =
       isMac = /darwin/.test process.platform
       metaRpl = if isMac then 'Command' else 'Ctrl'
       return keyString.split(' ').map((word) -> word.replace word[0], do word[0].toUpperCase).join('-').replace('Meta', metaRpl) if keyString
-      return _.last(@commands[argString].bindKey[if isMac then 'mac' else 'win'].split('|')) if argString
+      return _.last((@commands[argString].bindKey[if isMac then 'mac' else 'win'] or '').split('|')) if argString
       
     registerShortCut: (keyCombo, command, argument) ->
       @listener.register_combo
