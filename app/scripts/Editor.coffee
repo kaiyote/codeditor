@@ -9,7 +9,6 @@ Editor =
         , tab.name
         m 'a.status',
           onclick: -> ctrl.closeTab tab
-        , 'x'
       ]
     m '#editor', config: (element, isInit) -> ctrl.init element, isInit
   ]
@@ -23,6 +22,7 @@ Editor =
     init: (element, isInit) ->
       unless isInit
         @editor = ace.edit element
+        @app.emit 'menu:commandHash', @editor.commands.byName
         @editor.setTheme DataStore.get('theme') or 'ace/theme/chrome'
         prevFiles = DataStore.get('files') or ['untitled.txt']
         prevFiles.push 'untitled.txt' if prevFiles.length is 0
@@ -61,6 +61,14 @@ Editor =
         
         @app.emit 'status:setTheme', do @editor.getTheme
         
+        @editor.on 'input', =>
+          if @editor.getSession().getUndoManager().hasUndo()
+            document.querySelector('.tab.active .status').classList.add('dirty')
+          else
+            document.querySelector('.tab.active .status').classList.remove('dirty')
+        
+        window.editor = @editor
+        
     openFile: (path) ->
       currentTab = _.findWhere(@tabs, {root: path}) or _.findWhere @tabs, {root: 'untitled.txt', active: yes}
       unless currentTab
@@ -88,10 +96,12 @@ Editor =
         
     saveFile: (path, content) ->
       unless path is 'untitled.txt'
-        require('fs').writeFile path, content, (err) ->
+        require('fs').writeFile path, content, (err) =>
           if err
             m.render document.querySelector('#dialog'), Dialog 'Save Error', m 'span', err
             do document.querySelector('#dialog').showModal
+          else
+            document.querySelector('.tab.active .status').classList.remove('dirty')
       else
         @saveFileAs content
         
@@ -108,6 +118,7 @@ Editor =
             tab = new Editor.Tab path, content, ace.require('ace/ext/modelist').getModeForPath(path).mode
             @tabs[@tabs.indexOf currentTab] = tab
             @switchSession tab
+            document.querySelector('.tab.active .status').classList.remove('dirty')
         file.value = ''
       do file.click
       
@@ -132,7 +143,7 @@ Editor =
     constructor: (@root, data, mode) ->
       @name = require('path').basename @root
       @active = no
-      @session = new ace.EditSession data, mode
+      @session = ace.createEditSession data, mode
       @session.getSelection().on 'changeCursor', =>
         Application.Emitter.emit 'status:cursor', do @session.getSelection().getCursor
       unless @root is 'untitled.txt'

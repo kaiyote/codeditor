@@ -1,14 +1,18 @@
 {
   "File": {
-    "New": {"command": "editor:newFile"},
-    "Open": {"command": "editor:openFile"},
-    "Save": {"command": "editor:saveFile"},
-    "Save As": {"command": "editor:saveFileAs"},
+    "New": {"command": "editor:newFile", "keys": "meta n"},
+    "Open": {"command": "editor:openFile", "keys": "meta o"},
+    "Save": {"command": "editor:saveFile", "keys": "meta s"},
+    "Save As": {"command": "editor:saveFileAs", "keys": "meta shift s"},
     "-": "",
-    "Close": {"command": "app:close"}
+    "Close": {"command": "app:close", "keys": "meta alt q"}
   },
   "Edit": {
-    
+    "Undo": {"command": "editor:aceCommand", "argument": "undo"},
+    "Redo": {"command": "editor:aceCommand", "argument": "redo"},
+    "Move Lines Up": {"command": "editor:aceCommand", "argument": "movelinesup"},
+    "Move Lines Down": {"command": "editor:aceCommand", "argument": "movelinesdown"},
+    "Duplicate": {"command": "editor:aceCommand", "argument": "duplicateSelection"}
   },
   "Project": {
     "Add Directory": {"command": "project:addDirectory"},

@@ -81,13 +81,16 @@ ul.unstyled
         position absolute
         margin-left -.5rem
         padding .2rem 0
+        font-size 12px
         
         li
-          padding 0 2rem
+          padding 0 1.7rem
           margin .2rem 0
+          width 11rem
           
-          &.separator
-            padding 0 .7rem
+          .keys
+            color lighten(background, 40%)
+            float right
             
 .statusbar
   display flex
@@ -250,6 +253,12 @@ ul.unstyled
         cursor pointer
         flex 0 0 auto
         
+        &:before
+          content 'x'
+          
+        &.dirty:before
+          content 'o'
+          
         &:hover
           color foreground
           
