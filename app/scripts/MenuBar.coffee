@@ -9,7 +9,7 @@ MenuBar =
         m 'ul.menu.unstyled.hidden', _.map value, (subValue, key) ->
           m 'li.menuitem',
             class: if key is '-' then 'separator' else ''
-            onclick: -> ctrl.app.emit subValue if subValue
+            onclick: -> ctrl.app.emit subValue.command if subValue
           , if key isnt '-' then key else m 'hr'
       ]
       
@@ -55,7 +55,6 @@ MenuBar =
         
     registerShortCuts: ->
       @listener = new window.keypress.Listener null,
-        prevent_default: yes
         prevent_repeat: yes
         is_solitary: yes
         

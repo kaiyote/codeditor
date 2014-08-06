@@ -1,22 +1,25 @@
 {
   "File": {
-    "New": "editor:newFile",
-    "Open": "editor:openFile",
-    "Save": "editor:saveFile",
-    "Save As": "editor:saveFileAs",
+    "New": {"command": "editor:newFile"},
+    "Open": {"command": "editor:openFile"},
+    "Save": {"command": "editor:saveFile"},
+    "Save As": {"command": "editor:saveFileAs"},
     "-": "",
-    "Close": "app:close"
+    "Close": {"command": "app:close"}
+  },
+  "Edit": {
+    
   },
   "Project": {
-    "Add Directory": "project:addDirectory",
-    "Remove All Directories": "project:removeDirectories",
+    "Add Directory": {"command": "project:addDirectory"},
+    "Remove All Directories": {"command": "project:removeDirectories"},
     "-": "",
-    "Save Project File": "project:saveProject",
-    "Open Project File": "project:openProject",
-    "Close Project": "project:closeProject"
+    "Save Project File": {"command": "project:saveProject"},
+    "Open Project File": {"command": "project:openProject"},
+    "Close Project": {"command": "project:closeProject"}
   },
   "Developer": {
-    "Reload": "app:reload",
-    "Show Dev Tools": "app:devTools"
+    "Reload": {"command": "app:reload"},
+    "Show Dev Tools": {"command": "app:devTools"}
   }
 }
