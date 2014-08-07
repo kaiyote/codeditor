@@ -42,6 +42,9 @@
     "Open Project File": {"command": "project:openProject"},
     "Close Project": {"command": "project:closeProject"}
   },
+  "Preferences": {
+    "User Settings": {"command": "settings:edit"}
+  },
   "Developer": {
     "Reload": {"command": "app:reload"},
     "Show Dev Tools": {"command": "app:devTools"}

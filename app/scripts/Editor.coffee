@@ -25,13 +25,16 @@ Editor =
         @app.emit 'menu:commandHash', @editor.commands.byName
         @editor.setTheme DataStore.get('theme') or 'ace/theme/chrome'
         
-        require('fs').readFile 'settings/options.json', encoding: 'utf8', (err, data) =>
-          unless err
-            data = JSON.parse data
-            @editor.setOptions data.editor
-            @editor.renderer.setOptions data.renderer
-            DataStore.set 'sessionOpts', data.session
-            
+        settings = DataStore.get 'settings'
+        if settings
+          @applySettings settings
+        else
+          require('fs').readFile 'settings/options.json', encoding: 'utf8', (err, data) =>
+            unless err
+              data = JSON.parse data
+              DataStore.set 'settings', data
+              @applySettings data
+              
         prevFiles = DataStore.get('files') or ['untitled.txt']
         prevFiles.push 'untitled.txt' if prevFiles.length is 0
           
@@ -75,6 +78,11 @@ Editor =
           newTab = @tabs[currentIndex - 1] or @tabs[@tabs.length - 1]
           @switchSession newTab
           
+        @app.on 'settings:edit', =>
+          tab = new Editor.Tab '__/settings', JSON.stringify(DataStore.get('settings'), null, 2), 'ace/mode/json'
+          @tabs.push tab
+          @switchSession tab
+          
         @openFile file for file in prevFiles
         
         @app.emit 'status:setTheme', do @editor.getTheme
@@ -111,7 +119,9 @@ Editor =
         @switchSession currentTab
         
     saveFile: (path, content) ->
-      unless path is 'untitled.txt'
+      if path is '__/settings'
+        @saveAndApplySettings content
+      else unless path is 'untitled.txt'
         require('fs').writeFile path, content, (err) =>
           if err
             m.render document.querySelector('#dialog'), Dialog 'Save Error', m 'span', err
@@ -122,21 +132,24 @@ Editor =
         @saveFileAs content
         
     saveFileAs: (content) ->
-      file = document.querySelector 'input#save'
-      file.onchange = =>
-        path = file.value
-        require('fs').writeFile file.value, content, (err) =>
-          if err
-            m.render document.querySelector('#dialog'), Dialog 'Save Error', m 'span', err
-            do document.querySelector('#dialog').showModal
-          else
-            currentTab = _.findWhere @tabs, active: yes
-            tab = new Editor.Tab path, content, ace.require('ace/ext/modelist').getModeForPath(path).mode
-            @tabs[@tabs.indexOf currentTab] = tab
-            @switchSession tab
-            document.querySelector('.tab.active .status').classList.remove('dirty')
-        file.value = ''
-      do file.click
+      currentTab = _.findWhere @tabs, active: yes
+      if currentTab.root is '__/settings'
+        @saveAndApplySettings content
+      else
+        file = document.querySelector 'input#save'
+        file.onchange = =>
+          path = file.value
+          require('fs').writeFile file.value, content, (err) =>
+            if err
+              m.render document.querySelector('#dialog'), Dialog 'Save Error', m 'span', err
+              do document.querySelector('#dialog').showModal
+            else
+              tab = new Editor.Tab path, content, ace.require('ace/ext/modelist').getModeForPath(path).mode
+              @tabs[@tabs.indexOf currentTab] = tab
+              @switchSession tab
+              document.querySelector('.tab.active .status').classList.remove('dirty')
+          file.value = ''
+        do file.click
       
     switchSession: (tab) ->
       @editor.setSession tab.session
@@ -155,6 +168,17 @@ Editor =
       else
         @switchSession _.findWhere(@tabs, {active: yes}) or if index < @tabs.length then @tabs[index] else @tabs[@tabs.length - 1]
         
+    applySettings: (settings) ->
+      @editor.setOptions settings.editor
+      @editor.renderer.setOptions settings.renderer
+      
+    saveAndApplySettings: (settingsString) ->
+      settings = JSON.parse settingsString
+      DataStore.set 'settings', settings
+      @applySettings settings
+      tab.session.setOptions settings.session for tab in @tabs
+      document.querySelector('.tab.active .status').classList.remove 'dirty'
+      
   Tab: class
     constructor: (@root, data, mode) ->
       @name = require('path').basename @root
@@ -162,8 +186,8 @@ Editor =
       @session = ace.createEditSession data, mode
       @session.getSelection().on 'changeCursor', =>
         Application.Emitter.emit 'status:cursor', do @session.getSelection().getCursor
-      @session.setOptions DataStore.get 'sessionOpts'
-      unless @root is 'untitled.txt'
+      @session.setOptions DataStore.get('settings').session
+      unless @root is 'untitled.txt' or @root is '__/settings'
         files = DataStore.get('files') or []
         files.push @root unless -1 < files.indexOf @root
         DataStore.set 'files', files
