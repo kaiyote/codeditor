@@ -1,0 +1,31 @@
+{
+  "editor": {
+    "selectionStyle": "text",
+    "highlightActiveLine": false,
+    "highlightSelectedWord": false,
+    "cursorStyle": "ace"
+  },
+  "renderer": {
+    "hScrollBarAlwaysVisible": false,
+    "vScrollBarAlwaysVisible": false,
+    "highlightGutterLine": true,
+    "animatedScroll": true,
+    "showInvisibles": false,
+    "showPrintMargin": false,
+    "printMarginColumn": 100,
+    "fadeFoldWidgets": false,
+    "showFoldWidgets": true,
+    "showLineNumbers": true,
+    "showGutter": true,
+    "displayIndentGuides": true,
+    "scrollPastEnd": true,
+    "fixedWidthGutter": true
+  },
+  "session": {
+    "firstLineNumber": 1,
+    "useWorker": true,
+    "useSoftTabs": true,
+    "tabSize": 2,
+    "wrap": false
+  }
+}

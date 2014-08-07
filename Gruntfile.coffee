@@ -7,13 +7,13 @@ module.exports = (grunt) ->
         reporter: 'nested'
     nodewebkit:
       options:
-        version: "0.9.2"
+        version: "0.8.6"
         build_dir: './dist'
         # specifiy what to build
-        mac: false
-        win: true
-        linux32: false
-        linux64: false
+        mac: yes
+        win: yes
+        linux32: yes
+        linux64: yes
       src: './_public/**/*'
     coffee:
       test:

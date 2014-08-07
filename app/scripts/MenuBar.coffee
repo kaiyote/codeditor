@@ -27,7 +27,6 @@ MenuBar =
       do m.startComputation
       require('fs').readFile 'settings/menu.json', encoding: 'utf8', (err, data) =>
         @menus = JSON.parse data unless err
-        window.menus = @menus or err
         do m.endComputation
         
       document.querySelector('.wrapper').onclick = =>

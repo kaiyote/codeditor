@@ -24,6 +24,14 @@ Editor =
         @editor = ace.edit element
         @app.emit 'menu:commandHash', @editor.commands.byName
         @editor.setTheme DataStore.get('theme') or 'ace/theme/chrome'
+        
+        require('fs').readFile 'settings/options.json', encoding: 'utf8', (err, data) =>
+          unless err
+            data = JSON.parse data
+            @editor.setOptions data.editor
+            @editor.renderer.setOptions data.renderer
+            DataStore.set 'sessionOpts', data.session
+            
         prevFiles = DataStore.get('files') or ['untitled.txt']
         prevFiles.push 'untitled.txt' if prevFiles.length is 0
           
@@ -76,9 +84,7 @@ Editor =
             document.querySelector('.tab.active .status').classList.add('dirty')
           else
             document.querySelector('.tab.active .status').classList.remove('dirty')
-        
-        window.editor = @editor
-        
+            
     openFile: (path) ->
       currentTab = _.findWhere(@tabs, {root: path}) or _.findWhere @tabs, {root: 'untitled.txt', active: yes}
       unless currentTab
@@ -156,6 +162,7 @@ Editor =
       @session = ace.createEditSession data, mode
       @session.getSelection().on 'changeCursor', =>
         Application.Emitter.emit 'status:cursor', do @session.getSelection().getCursor
+      @session.setOptions DataStore.get 'sessionOpts'
       unless @root is 'untitled.txt'
         files = DataStore.get('files') or []
         files.push @root unless -1 < files.indexOf @root
