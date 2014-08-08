@@ -21,6 +21,7 @@ Editor =
       
     init: (element, isInit) ->
       unless isInit
+        ace.require 'ace/ext/language_tools'
         @editor = ace.edit element
         @app.emit 'menu:commandHash', @editor.commands.byName
         @editor.setTheme DataStore.get('theme') or 'ace/theme/chrome'

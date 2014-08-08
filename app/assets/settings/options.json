@@ -1,9 +1,15 @@
 {
+  "comments": {
+    "THIS IS FOR EXPLANATION": "PURPOSES ONLY. DO NOT DELETE",
+    "selectionStyle": "text|line",
+    "cursorStyle": "ace|slim|smooth|wide"
+  },
   "editor": {
     "selectionStyle": "text",
     "highlightActiveLine": false,
     "highlightSelectedWord": false,
-    "cursorStyle": "ace"
+    "cursorStyle": "ace",
+    "enableBasicAutocompletion": true
   },
   "renderer": {
     "hScrollBarAlwaysVisible": false,
@@ -13,7 +19,6 @@
     "showInvisibles": false,
     "showPrintMargin": false,
     "printMarginColumn": 100,
-    "fadeFoldWidgets": false,
     "showFoldWidgets": true,
     "showLineNumbers": true,
     "showGutter": true,
