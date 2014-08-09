@@ -2,7 +2,7 @@ StatusBar =
   view: (ctrl) -> [
     m '.project-toggle',
       onclick: -> ctrl.app.emit 'project:toggle'
-      class: if document.querySelector('.project.collapsed') then 'collapsed' else ''
+      class: if document.querySelector('.project.collapsed') then '' else 'collapsed'
     , [
       m 'div', '>'
       m 'div', '>'
