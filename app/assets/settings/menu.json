@@ -35,6 +35,7 @@
     "Next Tab": {"command": "editor:nextTab", "keys": "meta tab"},
     "Previous Tab": {"command": "editor:previousTab", "keys": "meta shift tab"},
     "-": "",
+    "Refresh Project": {"command": "project:refresh", "keys": "meta shift r"},
     "Add Directory": {"command": "project:addDirectory"},
     "Remove All Directories": {"command": "project:removeDirectories"},
     "--": "",

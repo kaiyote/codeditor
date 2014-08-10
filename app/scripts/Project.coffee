@@ -52,6 +52,9 @@ Project =
           projElm.classList.add 'collapsed'
         do m.redraw
         
+      @app.on 'project:refresh', =>
+        do @project.refresh
+        
   Project: class
     constructor: ->
       @directories = []
@@ -59,7 +62,7 @@ Project =
     addDirectory: (path) ->
       if (!_.find @directories, (dir) -> dir.root is path)
         dir = new Directory.Directory path
-        do dir.LoadChildren
+        do dir.loadChildren
         @directories.push dir
         do m.redraw
         
@@ -81,6 +84,10 @@ Project =
     closeProject: ->
       @directories = []
       DataStore.delete 'project'
+      
+    refresh: ->
+      do dir.unloadChildren for dir in @directories
+      do dir.loadChildren for dir in @directories
       
 Directory =
   view: (ctrl) ->
@@ -104,11 +111,11 @@ Directory =
     constructor: (@root) ->
       
     expand: ->
-      if @root.directories.length is 0 then do @root.LoadChildren else @root.loaded = yes
+      if @root.directories.length is 0 then do @root.loadChildren else @root.loaded = yes
       do m.redraw
       
     collapse: ->
-      @root.loaded = no
+      do @root.unloadChildren
       do m.redraw
       
   Directory: class
@@ -118,7 +125,7 @@ Directory =
       @name = require('path').basename @root
       @loaded = no
       
-    LoadChildren: ->
+    loadChildren: ->
       d = do require('domain').create
       d.on 'error', (err) ->
       d.run =>
@@ -133,9 +140,14 @@ Directory =
                 @files.push file unless _.contains @files, file
             @directories = _.sortBy @directories, (directory) -> do directory.root.toLowerCase
             @files = _.sortBy @files, (file) -> do file.toLowerCase
-            @loaded = true
+            @loaded = yes
           do m.redraw
           
+    unloadChildren: ->
+      @files = []
+      @directories = []
+      @loaded = no
+      
 File =
   view: (ctrl) ->
     m 'li.file', [
