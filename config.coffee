@@ -15,12 +15,8 @@ exports.config =
         
     stylesheets:
       joinTo:
-        'css/app.css': /^(app|vendor|bower_components)/
-      order:
-        # make sure custom css comes after bootstrap, etc
-        after: [
-          'app/styles/app.styl'
-        ]
+        'css/app_dark.css': /^(app[\/\\]styles[\/\\]dark)/
+        'css/app_light.css': /^(app[\/\\]styles[\/\\]light)/
   plugins:
     jade:
       pretty: yes # Adds pretty-indentation whitespaces to output (false by default)

@@ -1,16 +1,3 @@
-@require '_functions'
-@require '_mixins'
-@require '_variables'
-
-@font-face
-  font-family 'Inconsolata'
-  src url('../fonts/Inconsolata-Regular.woff')
-  
-@font-face
-  font-family 'Inconsolata'
-  src url('../fonts/Inconsolata-Bold.woff')
-  font-weight bold
-
 body, html, .wrapper
   min-height 100%
   max-height 100%
@@ -19,7 +6,7 @@ body, html, .wrapper
   padding 0
   overflow hidden
   font-size 14px
-  background background
+  background baseBackground
   color foreground
   text-rendering optimizeLegibility
 
@@ -44,7 +31,7 @@ ul.unstyled
   height 1.7rem
   align-items center
   align-content center
-  background darken(background, 65%)
+  background primaryBackground
   
 .mainContainer
   display flex
@@ -61,16 +48,16 @@ ul.unstyled
   ul
     flex 1 0 auto
     padding 0
-    background darken(background, 65%)
+    background primaryBackground
     // just high enough to be on top of ace
     z-index 5
     
     li:not(.separator):hover
-      background lighten(@background, 10%)
+      background primaryBackground_Hover
       
     li.separator hr
       border none
-      border-bottom 1px solid lighten(background, 10%)
+      border-bottom 1px solid secondaryBackground
       
     .root
       display inline-block
@@ -89,7 +76,7 @@ ul.unstyled
           width 15rem
           
           .keys
-            color lighten(background, 40%)
+            color key_color
             float right
             
 .statusbar
@@ -114,7 +101,7 @@ ul.unstyled
     flex 1 0 auto
     
   select
-    background darken(background, 65%)
+    background primaryBackground
     color foreground
     -webkit-appearance none
     width 11rem
@@ -126,7 +113,7 @@ ul.unstyled
 .project
   display block
   width 14.3rem
-  background lighten(background, 10%)
+  background secondaryBackground
   position relative
   overflow auto
   transition width .2s
@@ -143,7 +130,7 @@ ul.unstyled
     cursor pointer
     
     &:not(.expander):hover
-      background lighten(background, 20%)
+      background tertiaryBackground
       
     &.expander
       margin-right .2rem
@@ -162,7 +149,7 @@ ul.unstyled
       height 0
       border transparent
       border-bottom 1px dotted foreground
-      color lighten(background, 10%)
+      color secondaryBackground
       width 4rem
       margin 0
       
@@ -217,13 +204,13 @@ ul.unstyled
       align-items stretch
       max-width 11rem
       min-width 4rem
-      background darken(background, 45%)
+      background darken(baseBackground, 45%)
       margin-right .2rem
       border-radius .3rem .3rem 0 0
       color darken(foreground, 25%)
       vertical-align middle
       line-height 1.85rem
-      border-bottom solid .3rem darken(background, 45%)
+      border-bottom solid .3rem darken(baseBackground, 45%)
       cursor default
       
       &:hover
@@ -240,7 +227,7 @@ ul.unstyled
       &.active
         border-bottom solid .3rem accent
         color foreground
-        background darken(background, 55%)
+        background darken(baseBackground, 55%)
         
         .status
           color accent
@@ -284,7 +271,7 @@ ul.unstyled
     color background
     
   .internal
-    border 1px solid lighten(background, 30%)
+    border 1px solid lighten(baseBackground, 30%)
     
   .controls
     text-align center
@@ -304,13 +291,13 @@ ul.unstyled
   background-color transparent
 
 ::-webkit-scrollbar-thumb
-  background-color lighten(background, 25%)
+  background-color lighten(baseBackground, 25%)
   border 3px solid transparent
   border-radius 6px
   background-clip content-box
 
   &:hover
-    background-color lighten(background, 35%)
+    background-color lighten(baseBackground, 35%)
     
 ::-webkit-scrollbar-corner
   background-color transparent
