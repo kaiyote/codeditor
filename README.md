@@ -23,7 +23,7 @@ What this isn't:
 Future Plans / Yet to be Implemented:
 -------------------------------------
 - Integrated terminal
-- Settings
+- ~~Settings~~
 - Project directory watching / Project tree auto-reload
 
 [1]: https://github.com/ajaxorg/ace
