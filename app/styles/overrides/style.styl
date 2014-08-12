@@ -1,3 +1,12 @@
+@font-face
+  font-family 'Inconsolata'
+  src url('../fonts/Inconsolata-Regular.woff')
+  
+@font-face
+  font-family 'Inconsolata'
+  src url('../fonts/Inconsolata-Bold.woff')
+  font-weight bold
+
 body, html, .wrapper
   min-height 100%
   max-height 100%
@@ -157,7 +166,7 @@ ul.unstyled
       display none
       
     &:not(.root)
-      border-left 1px dotted darken(foreground, 20%)
+      border-left 1px dotted paleText
       margin-left .15rem
       
     &.root
@@ -173,7 +182,7 @@ ul.unstyled
         
         &.directory
           font-weight bold
-          color darken(foreground, 20%)
+          color paleText
           
           div:not(.expander)
             width 90%
@@ -204,17 +213,17 @@ ul.unstyled
       align-items stretch
       max-width 11rem
       min-width 4rem
-      background darken(baseBackground, 45%)
+      background quaternaryBackground
       margin-right .2rem
       border-radius .3rem .3rem 0 0
-      color darken(foreground, 25%)
+      color paleText
       vertical-align middle
       line-height 1.85rem
-      border-bottom solid .3rem darken(baseBackground, 45%)
+      border-bottom solid .3rem quaternaryBackground
       cursor default
       
       &:hover
-        color darken(foreground, 10%)
+        color paleText_Hover
         
       .label
         padding-left .4rem
@@ -227,7 +236,7 @@ ul.unstyled
       &.active
         border-bottom solid .3rem accent
         color foreground
-        background darken(baseBackground, 55%)
+        background primaryBackground
         
         .status
           color accent
@@ -271,7 +280,7 @@ ul.unstyled
     color background
     
   .internal
-    border 1px solid lighten(baseBackground, 30%)
+    border 1px solid border
     
   .controls
     text-align center
@@ -291,13 +300,13 @@ ul.unstyled
   background-color transparent
 
 ::-webkit-scrollbar-thumb
-  background-color lighten(baseBackground, 25%)
+  background-color scrollbar
   border 3px solid transparent
   border-radius 6px
   background-clip content-box
 
   &:hover
-    background-color lighten(baseBackground, 35%)
+    background-color scrollbarHover
     
 ::-webkit-scrollbar-corner
   background-color transparent
