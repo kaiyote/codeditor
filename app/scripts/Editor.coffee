@@ -41,6 +41,7 @@ Editor =
           
         @app.on 'editor:changeTheme', (theme) =>
           @editor.setTheme theme
+          @applyTheme theme
           DataStore.set 'theme', theme
           
         @app.on 'editor:changeMode', (mode) =>
@@ -86,6 +87,7 @@ Editor =
           
         @openFile file for file in prevFiles
         
+        @applyTheme do @editor.getTheme
         @app.emit 'status:setTheme', do @editor.getTheme
         
         @editor.on 'input', =>
@@ -179,6 +181,11 @@ Editor =
       @applySettings settings
       tab.session.setOptions settings.session for tab in @tabs
       document.querySelector('.tab.active .status').classList.remove 'dirty'
+      
+    applyTheme: (theme) ->
+      theme = _.last theme.split '/'
+      dark = ace.require('ace/ext/themelist').themesByName[theme].isDark
+      document.querySelector('link[rel="stylesheet"]').href = "css/app_#{if dark then 'dark' else 'light'}.css"
       
   Tab: class
     constructor: (@root, data, mode) ->
