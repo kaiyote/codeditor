@@ -1,8 +1,13 @@
 Editor =
   view: (ctrl) -> [
-    m '#tabs', ctrl.tabs.map (tab) ->
+    m '#tabs',
+      ondragover: (evt) -> do evt.preventDefault
+      ondrop: (evt) -> ctrl.dropTab JSON.parse(evt.dataTransfer.getData 'JSON'), evt.target
+    , ctrl.tabs.map (tab) ->
       m 'span.tab',
         class: if tab.active then 'active' else ''
+        draggable: yes
+        ondragstart: (evt) -> ctrl.dragTab evt, tab
       , [
         m 'a.label',
           onclick: -> ctrl.switchSession tab
@@ -153,7 +158,7 @@ Editor =
               document.querySelector('.tab.active .status').classList.remove('dirty')
           file.value = ''
         do file.click
-      
+        
     switchSession: (tab) ->
       @editor.setSession tab.session
       for tabb in @tabs
@@ -187,6 +192,26 @@ Editor =
       dark = ace.require('ace/ext/themelist').themesByName[theme].isDark
       document.querySelector('link[rel="stylesheet"]').href = "css/app_#{if dark then 'dark' else 'light'}.css"
       
+    dragTab: (evt, tab) ->
+      evt.dataTransfer.setData 'JSON', JSON.stringify tab
+      
+    dropTab: (tab, target) ->
+      tab = Editor.Tab.Copy tab
+      
+      shift = (tab, target) =>
+        index = Array::slice.call(document.querySelectorAll '.tab').indexOf target
+        shiftTab = @tabs[index]
+        @tabs = _.reject(@tabs, (_tab) -> _tab.root is tab.root)
+        @tabs.splice @tabs.indexOf(shiftTab), 0, tab
+        
+      if target is document.querySelector '#tabs'
+        @tabs = _.reject(@tabs, (_tab) -> _tab.root is tab.root)
+        @tabs.push tab
+      else if target.classList.contains 'tab'
+        shift tab, target
+      else if target.classList.contains 'label' or target.classList.contains 'tab'
+        shift tab, target.parentElement
+        
   Tab: class
     constructor: (@root, data, mode) ->
       @name = require('path').basename @root
@@ -199,3 +224,8 @@ Editor =
         files = DataStore.get('files') or []
         files.push @root unless -1 < files.indexOf @root
         DataStore.set 'files', files
+        
+    @Copy: (tab) ->
+      _tab = new Editor.Tab tab.root, tab.session.doc.$lines.join(tab.session.doc.$autoNewLine), tab.session.$modeId
+      _tab.active = tab.active
+      _tab
