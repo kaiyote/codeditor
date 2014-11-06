@@ -1,6 +1,6 @@
 {
-  "name": "node-webkit-stylish-seed",
-  "repo": "kaiyote/node-webkit-stylish-seed",
+  "name": "codeditor",
+  "repo": "kaiyote/codeditor",
   "version": "0.2.0",
   "main": "_public/js/app.js",
   "ignore": [
@@ -9,9 +9,9 @@
     "components"
   ],
   "dependencies": {
-    "components-underscore": "~1.5.2",
-    "mithril": "~0.1.19",
-    "ace-builds": "~1.1.5",
+    "components-underscore": "~1.7.0",
+    "mithril": "~0.1.22",
+    "ace-builds": "~1.1.7",
     "Keypress": "~2.0.3"
   },
   "overrides": {

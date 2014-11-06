@@ -7,13 +7,13 @@ module.exports = (grunt) ->
         reporter: 'nested'
     nodewebkit:
       options:
-        version: "0.8.6"
+        version: "0.10.5"
         build_dir: './dist'
         # specifiy what to build
-        mac: yes
+        mac: no
         win: yes
-        linux32: yes
-        linux64: yes
+        linux32: no
+        linux64: no
       src: './_public/**/*'
     coffee:
       test:
@@ -39,7 +39,7 @@ module.exports = (grunt) ->
           src: ['**']
           dest: 'settings/'
         ]
-        
+
   grunt.loadNpmTasks 'grunt-node-webkit-builder'
   grunt.loadNpmTasks 'grunt-contrib-nodeunit'
   grunt.loadNpmTasks 'grunt-contrib-coffee'

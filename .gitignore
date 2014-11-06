@@ -1,5 +1,6 @@
 **/.DS_Store
-codeditor
+codeditor.sublime-project
+codeditor.sublime-workspace
 manifest.mf
 build.xml
 
